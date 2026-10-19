@@ -9,16 +9,21 @@ import SceneFrame from "../world/SceneFrame";
 import { useWorld } from "../world/WorldProvider";
 import Finale from "./Finale";
 
-/** Where each paper wish hangs in the branches. */
+/**
+ * Where each paper wish hangs in the branches. Two sets of spots:
+ * `mx`/`my` for a phone, where the tree is square and the papers
+ * need two tidy columns to stop covering each other, and `x`/`y`
+ * from 680px up, where there is room to scatter them properly.
+ */
 const SPOTS = [
-  { x: 24, y: 30 },
-  { x: 42, y: 20 },
-  { x: 59, y: 26 },
-  { x: 76, y: 34 },
-  { x: 32, y: 46 },
-  { x: 50, y: 40 },
-  { x: 68, y: 48 },
-  { x: 84, y: 22 },
+  { x: 24, y: 30, mx: 29, my: 13 },
+  { x: 42, y: 20, mx: 71, my: 17 },
+  { x: 59, y: 26, mx: 33, my: 25 },
+  { x: 76, y: 34, mx: 68, my: 29 },
+  { x: 32, y: 46, mx: 28, my: 37 },
+  { x: 50, y: 40, mx: 72, my: 41 },
+  { x: 68, y: 48, mx: 34, my: 49 },
+  { x: 84, y: 22, mx: 66, my: 52 },
 ];
 
 export default function WishTree() {
@@ -53,7 +58,13 @@ export default function WishTree() {
                 key={wish.id}
                 type="button"
                 className="wish-tag"
-                style={{ left: `${spot.x}%`, top: `${spot.y}%`, ["--sway" as string]: `${(index % 4) * 0.7}s` }}
+                style={{
+                  ["--wish-x" as string]: `${spot.x}%`,
+                  ["--wish-y" as string]: `${spot.y}%`,
+                  ["--wish-mx" as string]: `${spot.mx}%`,
+                  ["--wish-my" as string]: `${spot.my}%`,
+                  ["--sway" as string]: `${(index % 4) * 0.7}s`,
+                }}
                 data-kind={wish.kind}
                 data-read={read ? "true" : "false"}
                 data-active={active === wish.id ? "true" : "false"}

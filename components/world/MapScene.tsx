@@ -121,7 +121,13 @@ export default function MapScene() {
             <div
               key={place.id}
               className="map-pin"
-              style={{ left: `${place.x}%`, top: `${place.y}%`, ["--pin-delay" as string]: `${index * 110}ms` }}
+              /* the map only pins these by hand on a wide screen; on a
+                 phone they stack into a list and the spots go unused */
+              style={{
+                ["--pin-x" as string]: `${place.x}%`,
+                ["--pin-y" as string]: `${place.y}%`,
+                ["--pin-delay" as string]: `${index * 110}ms`,
+              }}
               data-unlocked={unlocked ? "true" : "false"}
               data-active={hovered === place.id ? "true" : "false"}
             >

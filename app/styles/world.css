@@ -86,7 +86,8 @@
   flex-direction: column;
   justify-content: center;
   gap: 18px;
-  padding: 72px var(--gutter) 56px;
+  padding: 72px max(var(--gutter), env(safe-area-inset-right)) calc(56px + env(safe-area-inset-bottom))
+    max(var(--gutter), env(safe-area-inset-left));
   overflow: hidden;
   color: var(--moonlight);
   text-align: center;
@@ -261,7 +262,7 @@
 
 .gate-photo {
   position: absolute;
-  right: -11%;
+  right: -3%;
   bottom: 4%;
   z-index: 3;
   width: 31%;
@@ -339,6 +340,7 @@
 }
 
 .gate-skip {
+  padding: 11px 14px;
   border: 0;
   background: transparent;
   color: rgba(244, 236, 216, 0.6);
@@ -574,7 +576,7 @@
   gap: 8px;
   width: min(var(--shell), 100%);
   margin: 0 auto;
-  padding: 8px var(--gutter);
+  padding: 6px max(var(--gutter), env(safe-area-inset-right)) 6px max(var(--gutter), env(safe-area-inset-left));
 }
 
 .world-bar-title {
@@ -602,8 +604,10 @@
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
-  min-height: 38px;
+  min-width: 44px;
+  min-height: 44px;
   padding: 0 10px;
   border: 1px solid transparent;
   border-radius: 999px;
@@ -681,7 +685,8 @@
 .map-scene {
   width: min(var(--shell), 100%);
   margin: 0 auto;
-  padding: 28px var(--gutter) 56px;
+  padding: 28px max(var(--gutter), env(safe-area-inset-right)) calc(56px + env(safe-area-inset-bottom))
+    max(var(--gutter), env(safe-area-inset-left));
 }
 
 .map-head {
@@ -741,10 +746,13 @@
 
 .map-mushroom {
   position: absolute;
-  right: 18px;
-  bottom: 14px;
-  width: 34px;
-  padding: 0;
+  right: 12px;
+  bottom: 8px;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 6px;
   border: 0;
   background: transparent;
   opacity: 0.9;
@@ -1096,7 +1104,8 @@ li[data-done="true"] .step-mark {
   flex: 1;
   width: min(var(--shell), 100%);
   margin: 0 auto;
-  padding: 26px var(--gutter) 56px;
+  padding: 26px max(var(--gutter), env(safe-area-inset-right)) calc(56px + env(safe-area-inset-bottom))
+    max(var(--gutter), env(safe-area-inset-left));
 }
 
 .scene-head {
@@ -1256,11 +1265,15 @@ li[data-done="true"] .step-mark {
     right: auto;
     left: 38%;
     bottom: 16%;
-    width: 30px;
+    width: 44px;
+    height: 44px;
+    padding: 7px;
   }
 
   .map-pin {
     position: absolute;
+    left: var(--pin-x);
+    top: var(--pin-y);
     transform: translate(-50%, -50%);
     width: 190px;
     animation: pin-drop 0.6s cubic-bezier(0.2, 0.8, 0.25, 1) both;
@@ -1354,5 +1367,53 @@ li[data-done="true"] .step-mark {
   }
   to {
     transform: scaleX(0.72);
+  }
+}
+
+/* A phone lying on its side: stand the gate beside the words, so the
+   way in is on the screen without her having to scroll for it. */
+@media (min-width: 600px) and (max-height: 560px) {
+  .gate {
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    text-align: left;
+  }
+
+  .gate-scene {
+    width: min(300px, 36vw);
+    margin: 0;
+  }
+
+  .gate-title {
+    font-size: clamp(28px, 5.4vw, 40px);
+  }
+
+  .gate-copy {
+    margin: 0;
+    max-width: 440px;
+  }
+
+  .gate-copy .kicker {
+    justify-content: flex-start;
+  }
+
+  .gate-actions,
+  .lock {
+    justify-items: start;
+  }
+
+  .lock {
+    margin-top: 16px;
+    gap: 9px;
+  }
+
+  /* the polaroid hangs off the arch, but not off the screen */
+  .gate-photo {
+    right: 0;
+    width: 30%;
   }
 }

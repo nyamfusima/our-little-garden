@@ -32,7 +32,9 @@
 .garden-plot {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr auto;
+  /* minmax(0, …) lets the flower shrink on a narrow screen instead of
+     pushing the watering can off the edge */
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   justify-items: center;
   gap: 4px;
@@ -40,7 +42,7 @@
 
 .flower-holder {
   position: relative;
-  width: min(250px, 66vw);
+  width: min(250px, 100%);
 }
 
 .flower-art {
@@ -169,8 +171,8 @@
   position: absolute;
   left: 8%;
   bottom: 6%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 0;
@@ -1275,11 +1277,22 @@ button.envelope:hover .envelope-paper {
 
 .wish-tag {
   position: absolute;
+  left: var(--wish-mx);
+  top: var(--wish-my);
   z-index: 2;
   padding: 0;
   border: 0;
   background: transparent;
   transform: translate(-50%, -50%);
+}
+
+/* a little more paper to aim a thumb at than the paper itself — kept
+   just inside the gap between two tags, so a near miss never opens the
+   wrong wish */
+.wish-tag::after {
+  content: "";
+  position: absolute;
+  inset: -3px -5px;
 }
 
 .wish-string {
@@ -1293,13 +1306,14 @@ button.envelope:hover .envelope-paper {
 
 .wish-paper {
   display: block;
-  padding: 6px 11px;
+  padding: 7px 10px;
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: 3px;
   box-shadow: var(--shadow-paper);
   font-family: var(--script);
-  font-size: 15px;
+  font-size: 13.5px;
+  line-height: 1.4;
   color: var(--ink-soft);
   white-space: nowrap;
   animation: sway 5.5s ease-in-out infinite;
@@ -1338,8 +1352,8 @@ button.envelope:hover .envelope-paper {
   position: absolute;
   right: 10%;
   top: 36%;
-  width: 34px;
-  padding: 0;
+  width: 46px;
+  padding: 0 6px;
   border: 0;
   background: transparent;
   animation: sway 6.5s ease-in-out infinite;
@@ -1695,13 +1709,13 @@ button.envelope:hover .envelope-paper {
   }
 
   .garden-plot {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: end;
     justify-items: center;
   }
 
   .flower-holder {
-    width: min(260px, 32vw);
+    width: min(260px, 100%);
   }
 
   .garden-panel {
@@ -1757,6 +1771,17 @@ button.envelope:hover .envelope-paper {
   .wish-tree-stage {
     aspect-ratio: 4 / 3;
     max-width: 640px;
+  }
+
+  /* room to scatter the wishes through the branches again */
+  .wish-tag {
+    left: var(--wish-x);
+    top: var(--wish-y);
+  }
+
+  .wish-paper {
+    padding: 6px 11px;
+    font-size: 15px;
   }
 
   .finale-inner {
